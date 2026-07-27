@@ -1,29 +1,22 @@
 {
-  "name": "app-test",
+  "name": "qrta",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
-  "author": "Yamid Dev",
+  "author": "yamiddevofic",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "build:css": "postcss views/styles/styles.css -o public/styles.css",
-    "watch:css": "postcss views/styles/styles.css -o public/styles.css --watch",
-    "dev": "concurrently \"npm run start\" \"npm run watch:css\" \"browser-sync start --proxy 'localhost:3000' --files 'public/*.css, views/*.html' --port 3001\""
+    "start": "nodemon server.js"
   },
   "dependencies": {
-    "body-parser": "^2.3.0",
-    "date-and-time": "^4.5.1",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mongoose": "^9.7.4",
+    "mongodb": "^7.5.0",
+    "mongoose": "^9.8.0",
     "morgan": "^1.11.0",
     "nodemon": "^3.1.14"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.5.4",
-    "browser-sync": "^3.0.4"
   }
 }

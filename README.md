@@ -153,281 +153,38 @@ curl -X POST http://localhost:3000/api/administradores \
 **Campos opcionales:**
 - `plan` (String): 'free' o 'pro' (default: 'free')
 
-
-### Empleados
-
-#### GET /api/empleados
-Lista todos los empleados.
+#### PUT /api/administradores/:id
+Actualiza un administrador existente.
 
 ```bash
-curl http://localhost:3000/api/empleados
-```
-
-#### GET /api/empleados/:id
-Obtiene un empleado específico.
-
-```bash
-curl http://localhost:3000/api/empleados/507f1f77bcf86cd799439011
-```
-
-#### POST /api/empleados
-Crea un nuevo empleado.
-
-```bash
-curl -X POST http://localhost:3000/api/empleados \
+curl -X PUT http://localhost:3000/api/administradores/507f1f77bcf86cd799439011 \
   -H "Content-Type: application/json" \
   -d '{
-    "restaurante_id": "507f1f77bcf86cd799439012",
-    "nombre": "María García",
-    "usuario": "mariagarcia",
-    "contraseña": "password123",
-    "rol": "mesero",
-    "contacto": [
-      {
-        "celular": "+573001234567",
-        "correo": "maria@example.com"
-      }
-    ]
+    "nombre": "Juan Pérez Actualizado",
+    "correo": "juan.nuevo@example.com",
+    "usuario": "juanperez2",
+    "plan": "pro"
   }'
 ```
 
-**Campos requeridos:**
-- `restaurante_id` (ObjectId): ID del restaurante
-- `nombre` (String): Nombre completo
-- `usuario` (String): Nombre de usuario único
-- `contraseña` (String): Contraseña (se encripta automáticamente)
-- `rol` (String): 'mesero' o 'cocina'
-
-**Campos opcionales:**
-- `contacto` (Array): Array de objetos con `celular` y `correo`
-
-#### PUT /api/empleados/:id
-Actualiza un empleado.
+#### PATCH /api/administradores/:id/estado
+Cambia el estado del administrador.
 
 ```bash
-curl -X PUT http://localhost:3000/api/empleados/507f1f77bcf86cd799439011 \
+curl -X PATCH http://localhost:3000/api/administradores/507f1f77bcf86cd799439011/estado \
   -H "Content-Type: application/json" \
   -d '{
-    "nombre": "María García Actualizado",
-    "rol": "cocina"
-  }'
-```
-
-#### DELETE /api/empleados/:id
-Elimina un empleado.
-
-```bash
-curl -X DELETE http://localhost:3000/api/empleados/507f1f77bcf86cd799439011
-```
-
----
-
-### Clientes
-
-#### GET /api/clientes
-Lista todos los clientes.
-
-```bash
-curl http://localhost:3000/api/clientes
-```
-
-#### GET /api/clientes/:id
-Obtiene un cliente específico.
-
-```bash
-curl http://localhost:3000/api/clientes/507f1f77bcf86cd799439011
-```
-
-#### POST /api/clientes
-Crea un nuevo cliente.
-
-```bash
-curl -X POST http://localhost:3000/api/clientes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Carlos López",
-    "cedula": "123456789",
-    "contacto": [
-      {
-        "celular": "+573009876543",
-        "correo": "carlos@example.com"
-      }
-    ]
-  }'
-```
-
-**Campos requeridos:**
-- `nombre` (String): Nombre completo
-- `cedula` (String): Cédula única
-
-**Campos opcionales:**
-- `contacto` (Array): Array de objetos con `celular` y `correo`
-- `estado` (String): 'ACTIVO' o 'INACTIVO' (default: 'ACTIVO')
-
-#### PUT /api/clientes/:id
-Actualiza un cliente.
-
-```bash
-curl -X PUT http://localhost:3000/api/clientes/507f1f77bcf86cd799439011 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Carlos López Actualizado",
     "estado": "INACTIVO"
   }'
 ```
 
-#### DELETE /api/clientes/:id
-Elimina un cliente.
+**Estados disponibles:** 'ACTIVO', 'INACTIVO', 'BAJA'
+
+#### DELETE /api/administradores/:id
+Elimina un administrador.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/clientes/507f1f77bcf86cd799439011
-```
-
----
-
-### Pedidos
-
-#### GET /api/pedidos
-Lista todos los pedidos.
-
-```bash
-curl http://localhost:3000/api/pedidos
-```
-
-#### GET /api/pedidos/:id
-Obtiene un pedido específico.
-
-```bash
-curl http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011
-```
-
-#### POST /api/pedidos
-Crea un nuevo pedido.
-
-```bash
-curl -X POST http://localhost:3000/api/pedidos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "mesa_id": "507f1f77bcf86cd799439013",
-    "cliente_id": "507f1f77bcf86cd799439014",
-    "platos": [
-      {
-        "plato_id": "507f1f77bcf86cd799439015",
-        "nombre": "Pizza Margarita",
-        "precio": 15000,
-        "cantidad": 2
-      },
-      {
-        "plato_id": "507f1f77bcf86cd799439016",
-        "nombre": "Hamburguesa",
-        "precio": 12000,
-        "cantidad": 1
-      }
-    ],
-    "estado": "PENDIENTE"
-  }'
-```
-
-**Campos requeridos:**
-- `mesa_id` (ObjectId): ID de la mesa
-- `platos` (Array): Array de objetos con `plato_id`, `nombre`, `precio`, `cantidad`
-
-**Campos opcionales:**
-- `cliente_id` (ObjectId): ID del cliente
-- `estado` (String): 'PENDIENTE', 'CANCELADO', 'ELIMINADO', 'LISTO', 'ENTREGADO', 'DEVOLUCION' (default: 'PENDIENTE')
-- `fecha_cierre` (Date): Fecha de cierre del pedido
-
-#### PUT /api/pedidos/:id
-Actualiza un pedido.
-
-```bash
-curl -X PUT http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "estado": "LISTO",
-    "fecha_cierre": "2024-01-15T12:00:00.000Z"
-  }'
-```
-
-#### DELETE /api/pedidos/:id
-Elimina un pedido.
-
-```bash
-curl -X DELETE http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011
-```
-
----
-
-### Platos
-
-#### GET /api/platos
-Lista todos los platos.
-
-```bash
-curl http://localhost:3000/api/platos
-```
-
-#### GET /api/platos/:id
-Obtiene un plato específico.
-
-```bash
-curl http://localhost:3000/api/platos/507f1f77bcf86cd799439011
-```
-
-#### POST /api/platos
-Crea un nuevo plato.
-
-```bash
-curl -X POST http://localhost:3000/api/platos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Pizza Margarita",
-    "descripcion": "Pizza con tomate, mozzarella y albahaca",
-    "restaurante_id": "507f1f77bcf86cd799439012",
-    "categoria_id": "507f1f77bcf86cd799439017",
-    "ingredientes": [
-      {
-        "nombre": "Tomate",
-        "cantidad": 200,
-        "medida": "g"
-      },
-      {
-        "nombre": "Mozzarella",
-        "cantidad": 150,
-        "medida": "g"
-      }
-    ],
-    "estado": "DISPONIBLE"
-  }'
-```
-
-**Campos requeridos:**
-- `nombre` (String): Nombre del plato
-- `restaurante_id` (ObjectId): ID del restaurante
-- `categoria_id` (ObjectId): ID de la categoría
-
-**Campos opcionales:**
-- `descripcion` (String): Descripción del plato
-- `ingredientes` (Array): Array de objetos con `nombre`, `cantidad`, `medida`
-- `estado` (String): 'DISPONIBLE' o 'AGOTADO' (default: 'DISPONIBLE')
-
-#### PUT /api/platos/:id
-Actualiza un plato.
-
-```bash
-curl -X PUT http://localhost:3000/api/platos/507f1f77bcf86cd799439011 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "estado": "AGOTADO",
-    "descripcion": "Descripción actualizada"
-  }'
-```
-
-#### DELETE /api/platos/:id
-Elimina un plato.
-
-```bash
-curl -X DELETE http://localhost:3000/api/platos/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/administradores/507f1f77bcf86cd799439011
 ```
 
 ---
@@ -511,26 +268,320 @@ curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439011
 
 ---
 
-### Reportes
+### Mesas
 
-#### GET /api/reportes
-Obtiene reportes del sistema.
+#### GET /api/mesas
+Lista todas las mesas de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/reportes
+curl http://localhost:3000/api/mesas?restaurante_id=507f1f77bcf86cd799439012
 ```
 
-**Respuesta típica incluye:**
-- `restaurante_id`: ID del restaurante
-- `fecha`: Fecha del reporte
-- `total_ingresos`: Total de ingresos del día
-- `total_platos_entregados`: Cantidad de platos entregados
-- `total_platos_cancelados`: Cantidad de platos cancelados
-- `total_platos_devueltos`: Cantidad de platos devueltos
-- `promedio_tiempo_entrega`: Tiempo promedio de entrega
-- `ingresos_por_plato`: Array con ingresos por cada plato
-- `categoria_mas_vendida`: Categoría más vendida
-- `categoria_menos_vendida`: Categoría menos vendida
+#### GET /api/mesas/:id
+Obtiene una mesa específica.
+
+```bash
+curl http://localhost:3000/api/mesas/507f1f77bcf86cd799439013
+```
+
+#### POST /api/mesas
+Crea una nueva mesa en un restaurante.
+
+```bash
+curl -X POST http://localhost:3000/api/mesas \
+  -H "Content-Type: application/json" \
+  -d '{
+    "restaurante_id": "507f1f77bcf86cd799439012",
+    "numero": 1,
+    "qr_code": "QR001"
+  }'
+```
+
+**Campos requeridos:**
+- `restaurante_id` (ObjectId): ID del restaurante
+- `numero` (Number): Número de la mesa
+- `qr_code` (String): Código QR de la mesa
+
+#### PUT /api/mesas/:id
+Actualiza una mesa.
+
+```bash
+curl -X PUT http://localhost:3000/api/mesas/507f1f77bcf86cd799439013 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "numero": 2,
+    "qr_code": "QR002"
+  }'
+```
+
+#### DELETE /api/mesas/:id
+Elimina una mesa.
+
+```bash
+curl -X DELETE http://localhost:3000/api/mesas/507f1f77bcf86cd799439013
+```
+
+---
+
+### Categorías
+
+#### GET /api/categorias
+Lista todas las categorías de un restaurante.
+
+```bash
+curl http://localhost:3000/api/categorias?restaurante_id=507f1f77bcf86cd799439012
+```
+
+#### GET /api/categorias/:id
+Obtiene una categoría específica.
+
+```bash
+curl http://localhost:3000/api/categorias/507f1f77bcf86cd799439017
+```
+
+#### POST /api/categorias
+Crea una nueva categoría en un restaurante.
+
+```bash
+curl -X POST http://localhost:3000/api/categorias \
+  -H "Content-Type: application/json" \
+  -d '{
+    "restaurante_id": "507f1f77bcf86cd799439012",
+    "nombre": "Entradas",
+    "descripcion": "Platos de entrada"
+  }'
+```
+
+**Campos requeridos:**
+- `restaurante_id` (ObjectId): ID del restaurante
+- `nombre` (String): Nombre de la categoría
+
+**Campos opcionales:**
+- `descripcion` (String): Descripción de la categoría
+
+#### PUT /api/categorias/:id
+Actualiza una categoría.
+
+```bash
+curl -X PUT http://localhost:3000/api/categorias/507f1f77bcf86cd799439017 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Entradas Actualizado",
+    "descripcion": "Descripción actualizada"
+  }'
+```
+
+#### DELETE /api/categorias/:id
+Elimina una categoría.
+
+```bash
+curl -X DELETE http://localhost:3000/api/categorias/507f1f77bcf86cd799439017
+```
+
+---
+
+### Empleados
+
+#### GET /api/empleados
+Lista todos los empleados.
+
+```bash
+curl http://localhost:3000/api/empleados
+```
+
+#### GET /api/empleados/:id
+Obtiene un empleado específico.
+
+```bash
+curl http://localhost:3000/api/empleados/507f1f77bcf86cd799439011
+```
+
+#### POST /api/empleados
+Crea un nuevo empleado.
+
+```bash
+curl -X POST http://localhost:3000/api/empleados \
+  -H "Content-Type: application/json" \
+  -d '{
+    "restaurante_id": "507f1f77bcf86cd799439012",
+    "nombre": "María García",
+    "usuario": "mariagarcia",
+    "contraseña": "password123",
+    "rol": "mesero",
+    "contacto": [
+      {
+        "celular": "+573001234567",
+        "correo": "maria@example.com"
+      }
+    ]
+  }'
+```
+
+**Campos requeridos:**
+- `restaurante_id` (ObjectId): ID del restaurante
+- `nombre` (String): Nombre completo
+- `usuario` (String): Nombre de usuario único
+- `contraseña` (String): Contraseña (se encripta automáticamente)
+- `rol` (String): 'mesero' o 'cocina'
+
+**Campos opcionales:**
+- `contacto` (Array): Array de objetos con `celular` y `correo`
+
+#### PUT /api/empleados/:id
+Actualiza un empleado.
+
+```bash
+curl -X PUT http://localhost:3000/api/empleados/507f1f77bcf86cd799439011 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "María García Actualizado",
+    "rol": "cocina"
+  }'
+```
+
+#### DELETE /api/empleados/:id
+Elimina un empleado.
+
+```bash
+curl -X DELETE http://localhost:3000/api/empleados/507f1f77bcf86cd799439011
+```
+
+---
+
+### Platos
+
+#### GET /api/platos
+Lista todos los platos.
+
+```bash
+curl http://localhost:3000/api/platos
+```
+
+#### GET /api/platos/:id
+Obtiene un plato específico.
+
+```bash
+curl http://localhost:3000/api/platos/507f1f77bcf86cd799439011
+```
+
+#### POST /api/platos
+Crea un nuevo plato.
+
+```bash
+curl -X POST http://localhost:3000/api/platos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Pizza Margarita",
+    "descripcion": "Pizza con tomate, mozzarella y albahaca",
+    "restaurante_id": "507f1f77bcf86cd799439012",
+    "categoria_id": "507f1f77bcf86cd799439017",
+    "ingredientes": [
+      {
+        "nombre": "Tomate",
+        "cantidad": 200,
+        "medida": "g"
+      },
+      {
+        "nombre": "Mozzarella",
+        "cantidad": 150,
+        "medida": "g"
+      }
+    ],
+    "estado": "DISPONIBLE"
+  }'
+```
+
+**Campos requeridos:**
+- `nombre` (String): Nombre del plato
+- `restaurante_id` (ObjectId): ID del restaurante
+- `categoria_id` (ObjectId): ID de la categoría
+
+**Campos opcionales:**
+- `descripcion` (String): Descripción del plato
+- `ingredientes` (Array): Array de objetos con `nombre`, `cantidad`, `medida`
+- `estado` (String): 'DISPONIBLE' o 'AGOTADO' (default: 'DISPONIBLE')
+
+#### PUT /api/platos/:id
+Actualiza un plato.
+
+```bash
+curl -X PUT http://localhost:3000/api/platos/507f1f77bcf86cd799439011 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "estado": "AGOTADO",
+    "descripcion": "Descripción actualizada"
+  }'
+```
+
+#### DELETE /api/platos/:id
+Elimina un plato.
+
+```bash
+curl -X DELETE http://localhost:3000/api/platos/507f1f77bcf86cd799439011
+```
+
+---
+
+### Clientes
+
+#### GET /api/clientes
+Lista todos los clientes.
+
+```bash
+curl http://localhost:3000/api/clientes
+```
+
+#### GET /api/clientes/:id
+Obtiene un cliente específico.
+
+```bash
+curl http://localhost:3000/api/clientes/507f1f77bcf86cd799439011
+```
+
+#### POST /api/clientes
+Crea un nuevo cliente.
+
+```bash
+curl -X POST http://localhost:3000/api/clientes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Carlos López",
+    "cedula": "123456789",
+    "contacto": [
+      {
+        "celular": "+573009876543",
+        "correo": "carlos@example.com"
+      }
+    ]
+  }'
+```
+
+**Campos requeridos:**
+- `nombre` (String): Nombre completo
+- `cedula` (String): Cédula única
+
+**Campos opcionales:**
+- `contacto` (Array): Array de objetos con `celular` y `correo`
+- `estado` (String): 'ACTIVO' o 'INACTIVO' (default: 'ACTIVO')
+
+#### PUT /api/clientes/:id
+Actualiza un cliente.
+
+```bash
+curl -X PUT http://localhost:3000/api/clientes/507f1f77bcf86cd799439011 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Carlos López Actualizado",
+    "estado": "INACTIVO"
+  }'
+```
+
+#### DELETE /api/clientes/:id
+Elimina un cliente.
+
+```bash
+curl -X DELETE http://localhost:3000/api/clientes/507f1f77bcf86cd799439011
+```
 
 ---
 
@@ -597,6 +648,103 @@ Elimina un programa de fidelización.
 curl -X DELETE http://localhost:3000/api/fidelizacion/507f1f77bcf86cd799439011
 ```
 
+---
+
+### Pedidos
+
+#### GET /api/pedidos
+Lista todos los pedidos.
+
+```bash
+curl http://localhost:3000/api/pedidos
+```
+
+#### GET /api/pedidos/:id
+Obtiene un pedido específico.
+
+```bash
+curl http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011
+```
+
+#### POST /api/pedidos
+Crea un nuevo pedido.
+
+```bash
+curl -X POST http://localhost:3000/api/pedidos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mesa_id": "507f1f77bcf86cd799439013",
+    "cliente_id": "507f1f77bcf86cd799439014",
+    "platos": [
+      {
+        "plato_id": "507f1f77bcf86cd799439015",
+        "nombre": "Pizza Margarita",
+        "precio": 15000,
+        "cantidad": 2
+      },
+      {
+        "plato_id": "507f1f77bcf86cd799439016",
+        "nombre": "Hamburguesa",
+        "precio": 12000,
+        "cantidad": 1
+      }
+    ],
+    "estado": "PENDIENTE"
+  }'
+```
+
+**Campos requeridos:**
+- `mesa_id` (ObjectId): ID de la mesa
+- `platos` (Array): Array de objetos con `plato_id`, `nombre`, `precio`, `cantidad`
+
+**Campos opcionales:**
+- `cliente_id` (ObjectId): ID del cliente
+- `estado` (String): 'PENDIENTE', 'CANCELADO', 'ELIMINADO', 'LISTO', 'ENTREGADO', 'DEVOLUCION' (default: 'PENDIENTE')
+- `fecha_cierre` (Date): Fecha de cierre del pedido
+
+#### PUT /api/pedidos/:id
+Actualiza un pedido.
+
+```bash
+curl -X PUT http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "estado": "LISTO",
+    "fecha_cierre": "2024-01-15T12:00:00.000Z"
+  }'
+```
+
+#### DELETE /api/pedidos/:id
+Elimina un pedido.
+
+```bash
+curl -X DELETE http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011
+```
+
+---
+
+### Reportes
+
+#### GET /api/reportes
+Obtiene reportes del sistema.
+
+```bash
+curl http://localhost:3000/api/reportes
+```
+
+**Respuesta típica incluye:**
+- `restaurante_id`: ID del restaurante
+- `fecha`: Fecha del reporte
+- `total_ingresos`: Total de ingresos del día
+- `total_platos_entregados`: Cantidad de platos entregados
+- `total_platos_cancelados`: Cantidad de platos cancelados
+- `total_platos_devueltos`: Cantidad de platos devueltos
+- `promedio_tiempo_entrega`: Tiempo promedio de entrega
+- `ingresos_por_plato`: Array con ingresos por cada plato
+- `categoria_mas_vendida`: Categoría más vendida
+- `categoria_menos_vendida`: Categoría menos vendida
+
+
 ## 🔐 Seguridad
 
 - Las contraseñas se encriptan utilizando bcrypt con un factor de costo de 10
@@ -618,4 +766,3 @@ Las contribuciones son bienvenidas. Por favor, abre un issue o pull request para
 ## 📞 Soporte
 
 Para soporte o preguntas, por favor abre un issue en el repositorio.
-
