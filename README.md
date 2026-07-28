@@ -116,7 +116,7 @@ curl http://localhost:3000/api/administradores
 ```json
 [
   {
-    "_id": "507f1f77bcf86cd799439011",
+    "_id": ":id",
     "nombre": "Juan Pérez",
     "correo": "juan@example.com",
     "usuario": "juanperez",
@@ -131,7 +131,7 @@ curl http://localhost:3000/api/administradores
 Obtiene un administrador específico por su ID.
 
 ```bash
-curl http://localhost:3000/api/administradores/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/administradores/:id
 ```
 
 #### POST /api/administradores
@@ -162,7 +162,7 @@ curl -X POST http://localhost:3000/api/administradores \
 Actualiza un administrador existente.
 
 ```bash
-curl -X PUT http://localhost:3000/api/administradores/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/administradores/:id \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "Juan Pérez Actualizado",
@@ -176,7 +176,7 @@ curl -X PUT http://localhost:3000/api/administradores/507f1f77bcf86cd799439011 \
 Cambia el estado del administrador.
 
 ```bash
-curl -X PATCH http://localhost:3000/api/administradores/507f1f77bcf86cd799439011/estado \
+curl -X PATCH http://localhost:3000/api/administradores/:id/estado \
   -H "Content-Type: application/json" \
   -d '{
     "estado": "INACTIVO"
@@ -189,7 +189,7 @@ curl -X PATCH http://localhost:3000/api/administradores/507f1f77bcf86cd799439011
 Elimina un administrador.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/administradores/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/administradores/:id
 ```
 
 ---
@@ -207,7 +207,7 @@ curl http://localhost:3000/api/restaurantes
 Obtiene un restaurante específico.
 
 ```bash
-curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/restaurantes/:id
 ```
 
 #### POST /api/restaurantes
@@ -219,7 +219,7 @@ curl -X POST http://localhost:3000/api/restaurantes \
   -d '{
     "nombre": "Restaurante La Cocina",
     "ubicacion": "Calle 123 #45-67",
-    "adm_id": "507f1f77bcf86cd799439011"
+    "adm_id": ":id"
   }'
 ```
 
@@ -232,7 +232,7 @@ curl -X POST http://localhost:3000/api/restaurantes \
 Actualiza un restaurante.
 
 ```bash
-curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/restaurantes/:id \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "Restaurante La Cocina Actualizado",
@@ -244,31 +244,31 @@ curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439011 \
 Elimina un restaurante.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/restaurantes/:id
 ```
 
 #### GET /api/restaurantes/menu/:qr_code
 Obtiene el menú de un restaurante escaneando el código QR de una mesa. Incluye información del restaurante, mesa y platos organizados por categoría.
 
 ```bash
-curl http://localhost:3000/api/restaurantes/menu/507f1f77bcf86cd799439012_mesa_1_1234567890
+curl http://localhost:3000/api/restaurantes/menu/:qr_code
 ```
 
 **Respuesta:**
 ```json
 {
   "restaurante": {
-    "_id": "507f1f77bcf86cd799439012",
+    "_id": ":id",
     "nombre": "Restaurante La Cocina",
     "ubicacion": "Calle 123 #45-67"
   },
   "mesa": {
     "numero": 1,
-    "qr_code": "507f1f77bcf86cd799439012_mesa_1_1234567890"
+    "qr_code": ":qr_code"
   },
   "categorias": [
     {
-      "_id": "507f1f77bcf86cd799439017",
+      "_id": ":categoriaId",
       "nombre": "Entradas",
       "descripcion": "Platos de entrada",
       "platos": [...]
@@ -281,21 +281,21 @@ curl http://localhost:3000/api/restaurantes/menu/507f1f77bcf86cd799439012_mesa_1
 Lista todas las mesas de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas
+curl http://localhost:3000/api/restaurantes/:id/mesas
 ```
 
 #### GET /api/restaurantes/:id/mesas/:mesaId
 Obtiene una mesa específica de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas/507f1f77bcf86cd799439013
+curl http://localhost:3000/api/restaurantes/:id/mesas/:mesaId
 ```
 
 #### POST /api/restaurantes/:id/mesas
 Agrega una nueva mesa a un restaurante existente. Genera automáticamente el código QR y la imagen QR.
 
 ```bash
-curl -X POST http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas \
+curl -X POST http://localhost:3000/api/restaurantes/:id/mesas \
   -H "Content-Type: application/json" \
   -d '{
     "numero": 1
@@ -315,7 +315,7 @@ curl -X POST http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mes
 Edita una mesa existente.
 
 ```bash
-curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas/507f1f77bcf86cd799439013 \
+curl -X PUT http://localhost:3000/api/restaurantes/:id/mesas/:mesaId \
   -H "Content-Type: application/json" \
   -d '{
     "numero": 2
@@ -326,35 +326,35 @@ curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesa
 Elimina una mesa específica.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas/507f1f77bcf86cd799439013
+curl -X DELETE http://localhost:3000/api/restaurantes/:id/mesas/:mesaId
 ```
 
 #### DELETE /api/restaurantes/:id/mesas
 Elimina todas las mesas de un restaurante.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas
+curl -X DELETE http://localhost:3000/api/restaurantes/:id/mesas
 ```
 
 #### GET /api/restaurantes/:id/categorias
 Lista todas las categorías de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias
+curl http://localhost:3000/api/restaurantes/:id/categorias
 ```
 
 #### GET /api/restaurantes/:id/categorias/:categoriaId
 Obtiene una categoría específica de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias/507f1f77bcf86cd799439017
+curl http://localhost:3000/api/restaurantes/:id/categorias/:categoriaId
 ```
 
 #### POST /api/restaurantes/:id/categorias
 Agrega una nueva categoría a un restaurante existente.
 
 ```bash
-curl -X POST http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias \
+curl -X POST http://localhost:3000/api/restaurantes/:id/categorias \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "Entradas",
@@ -372,7 +372,7 @@ curl -X POST http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/cat
 Edita una categoría existente.
 
 ```bash
-curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias/507f1f77bcf86cd799439017 \
+curl -X PUT http://localhost:3000/api/restaurantes/:id/categorias/:categoriaId \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "Entradas Actualizado",
@@ -384,14 +384,14 @@ curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/cate
 Elimina una categoría específica.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias/507f1f77bcf86cd799439017
+curl -X DELETE http://localhost:3000/api/restaurantes/:id/categorias/:categoriaId
 ```
 
 #### DELETE /api/restaurantes/:id/categorias
 Elimina todas las categorías de un restaurante.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias
+curl -X DELETE http://localhost:3000/api/restaurantes/:id/categorias
 ```
 
 ---
@@ -409,7 +409,7 @@ curl http://localhost:3000/api/empleados
 Obtiene un empleado específico.
 
 ```bash
-curl http://localhost:3000/api/empleados/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/empleados/:id
 ```
 
 #### POST /api/empleados
@@ -419,7 +419,7 @@ Crea un nuevo empleado.
 curl -X POST http://localhost:3000/api/empleados \
   -H "Content-Type: application/json" \
   -d '{
-    "restaurante_id": "507f1f77bcf86cd799439012",
+    "restaurante_id": ":id",
     "nombre": "María García",
     "usuario": "mariagarcia",
     "contraseña": "password123",
@@ -447,7 +447,7 @@ curl -X POST http://localhost:3000/api/empleados \
 Actualiza un empleado.
 
 ```bash
-curl -X PUT http://localhost:3000/api/empleados/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/empleados/:id \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "María García Actualizado",
@@ -459,7 +459,7 @@ curl -X PUT http://localhost:3000/api/empleados/507f1f77bcf86cd799439011 \
 Elimina un empleado.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/empleados/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/empleados/:id
 ```
 
 ---
@@ -477,7 +477,7 @@ curl http://localhost:3000/api/platos
 Obtiene un plato específico.
 
 ```bash
-curl http://localhost:3000/api/platos/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/platos/:id
 ```
 
 #### POST /api/platos
@@ -489,8 +489,8 @@ curl -X POST http://localhost:3000/api/platos \
   -d '{
     "nombre": "Pizza Margarita",
     "descripcion": "Pizza con tomate, mozzarella y albahaca",
-    "restaurante_id": "507f1f77bcf86cd799439012",
-    "categoria_id": "507f1f77bcf86cd799439017",
+    "restaurante_id": ":id",
+    "categoria_id": ":categoriaId",
     "ingredientes": [
       {
         "nombre": "Tomate",
@@ -521,7 +521,7 @@ curl -X POST http://localhost:3000/api/platos \
 Actualiza un plato.
 
 ```bash
-curl -X PUT http://localhost:3000/api/platos/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/platos/:id \
   -H "Content-Type: application/json" \
   -d '{
     "estado": "AGOTADO",
@@ -533,7 +533,7 @@ curl -X PUT http://localhost:3000/api/platos/507f1f77bcf86cd799439011 \
 Elimina un plato.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/platos/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/platos/:id
 ```
 
 ---
@@ -551,7 +551,7 @@ curl http://localhost:3000/api/clientes
 Obtiene un cliente específico.
 
 ```bash
-curl http://localhost:3000/api/clientes/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/clientes/:id
 ```
 
 #### POST /api/clientes
@@ -584,7 +584,7 @@ curl -X POST http://localhost:3000/api/clientes \
 Actualiza un cliente.
 
 ```bash
-curl -X PUT http://localhost:3000/api/clientes/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/clientes/:id \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "Carlos López Actualizado",
@@ -596,7 +596,7 @@ curl -X PUT http://localhost:3000/api/clientes/507f1f77bcf86cd799439011 \
 Elimina un cliente.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/clientes/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/clientes/:id
 ```
 
 ---
@@ -614,7 +614,7 @@ curl http://localhost:3000/api/fidelizacion
 Obtiene un programa de fidelización específico.
 
 ```bash
-curl http://localhost:3000/api/fidelizacion/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/fidelizacion/:id
 ```
 
 #### POST /api/fidelizacion
@@ -624,8 +624,8 @@ Crea un nuevo programa de fidelización.
 curl -X POST http://localhost:3000/api/fidelizacion \
   -H "Content-Type: application/json" \
   -d '{
-    "restaurante_id": "507f1f77bcf86cd799439012",
-    "cliente_id": "507f1f77bcf86cd799439014",
+    "restaurante_id": ":id",
+    "cliente_id": ":clienteId",
     "puntos": 100,
     "compras_premio": 0,
     "visitas": 5,
@@ -648,7 +648,7 @@ curl -X POST http://localhost:3000/api/fidelizacion \
 Actualiza un programa de fidelización.
 
 ```bash
-curl -X PUT http://localhost:3000/api/fidelizacion/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/fidelizacion/:id \
   -H "Content-Type: application/json" \
   -d '{
     "puntos": 150,
@@ -661,7 +661,7 @@ curl -X PUT http://localhost:3000/api/fidelizacion/507f1f77bcf86cd799439011 \
 Elimina un programa de fidelización.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/fidelizacion/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/fidelizacion/:id
 ```
 
 ---
@@ -679,7 +679,7 @@ curl http://localhost:3000/api/pedidos
 Obtiene un pedido específico.
 
 ```bash
-curl http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011
+curl http://localhost:3000/api/pedidos/:id
 ```
 
 #### POST /api/pedidos
@@ -689,17 +689,17 @@ Crea un nuevo pedido.
 curl -X POST http://localhost:3000/api/pedidos \
   -H "Content-Type: application/json" \
   -d '{
-    "mesa_id": "507f1f77bcf86cd799439013",
-    "cliente_id": "507f1f77bcf86cd799439014",
+    "mesa_id": ":mesaId",
+    "cliente_id": ":clienteId",
     "platos": [
       {
-        "plato_id": "507f1f77bcf86cd799439015",
+        "plato_id": ":platoId",
         "nombre": "Pizza Margarita",
         "precio": 15000,
         "cantidad": 2
       },
       {
-        "plato_id": "507f1f77bcf86cd799439016",
+        "plato_id": ":platoId",
         "nombre": "Hamburguesa",
         "precio": 12000,
         "cantidad": 1
@@ -722,7 +722,7 @@ curl -X POST http://localhost:3000/api/pedidos \
 Actualiza un pedido.
 
 ```bash
-curl -X PUT http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3000/api/pedidos/:id \
   -H "Content-Type: application/json" \
   -d '{
     "estado": "LISTO",
@@ -734,7 +734,7 @@ curl -X PUT http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011 \
 Elimina un pedido.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/pedidos/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3000/api/pedidos/:id
 ```
 
 ---
