@@ -26,7 +26,7 @@ const store = async (req, res) => {
 // Listar Administradores
 const index = async (req, res) => {
     try {
-        const administradores = await Administrador.find().select('-contraseña');
+        const administradores = await Administrador.find().select('-password');
         res.json(administradores);
     } catch (err) {
         res.status(500).json({ message: 'Error al listar los administradores', error: err.message });
@@ -36,7 +36,7 @@ const index = async (req, res) => {
 // Consultar un administrador por ID
 const show = async (req, res) => {
     try {
-        const administrador = await Administrador.findById(req.params.id).select('-contraseña');
+        const administrador = await Administrador.findById(req.params.id).select('-password');
         if (!administrador) return res.status(404).json({ message: 'Administrador no encontrado' });
         res.json(administrador);
     } catch (err) {
@@ -53,14 +53,14 @@ const update = async (req, res) => {
             usuario: req.body.usuario,
             plan: req.body.plan
         };
-        if (req.body.contraseña) {
-            updateData.contraseña = bcrypt.hashSync(req.body.contraseña, 10);
+        if (req.body.password) {
+            updateData.password = bcrypt.hashSync(req.body.password, 10);
         }
         const administrador = await Administrador.findByIdAndUpdate(
             req.params.id,
             updateData,
             { new: true, runValidators: true }
-        ).select('-contraseña');
+        ).select('-password');
         if (!administrador) return res.status(404).json({ message: 'Administrador no encontrado' });
         res.json(administrador);
     } catch (err) {
@@ -75,7 +75,7 @@ const cambiarEstado = async (req, res) => {
             req.params.id,
             { estado: req.body.estado },
             { new: true, runValidators: true }
-        ).select('-contraseña');
+        ).select('-password');
         if (!administrador) return res.status(404).json({ message: 'Administrador no encontrado' });
         res.json(administrador);
     } catch (err) {

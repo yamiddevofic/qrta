@@ -10,9 +10,13 @@ Backend API para la gestión completa de restaurantes, desarrollado con Node.js,
 - **Sistema de Pedidos**: Gestión completa de pedidos y su estado
 - **Gestión de Platos**: Catálogo de platos del menú
 - **Gestión de Restaurantes**: Información de múltiples restaurantes
+- **Gestión de Mesas**: CRUD completo de mesas con generación automática de códigos QR
+- **Gestión de Categorías**: CRUD completo de categorías del menú
+- **Menú Digital**: Endpoint para comensales que muestra el menú escaneando el QR de la mesa
 - **Reportes**: Sistema de generación de reportes
 - **Fidelización**: Programa de puntos y recompensas para clientes
 - **Autenticación Segura**: Encriptación de contraseñas con bcrypt
+- **Códigos QR**: Generación automática de códigos QR para mesas con almacenamiento en base64
 - **Arquitectura MVC**: Estructura organizada y escalable
 
 ## 🛠️ Tecnologías Utilizadas
@@ -22,6 +26,7 @@ Backend API para la gestión completa de restaurantes, desarrollado con Node.js,
 - **MongoDB**: Base de datos NoSQL
 - **Mongoose**: ODM para MongoDB
 - **bcrypt**: Encriptación de contraseñas
+- **qrcode**: Generación de códigos QR
 - **dotenv**: Gestión de variables de entorno
 - **morgan**: Logger de solicitudes HTTP
 - **nodemon**: Reinicio automático del servidor en desarrollo
@@ -214,27 +219,7 @@ curl -X POST http://localhost:3000/api/restaurantes \
   -d '{
     "nombre": "Restaurante La Cocina",
     "ubicacion": "Calle 123 #45-67",
-    "adm_id": "507f1f77bcf86cd799439011",
-    "mesas": [
-      {
-        "numero": 1,
-        "qr_code": "QR001"
-      },
-      {
-        "numero": 2,
-        "qr_code": "QR002"
-      }
-    ],
-    "categorias": [
-      {
-        "nombre": "Entradas",
-        "descripcion": "Platos de entrada"
-      },
-      {
-        "nombre": "Platos Fuertes",
-        "descripcion": "Platos principales"
-      }
-    ]
+    "adm_id": "507f1f77bcf86cd799439011"
   }'
 ```
 
@@ -242,10 +227,6 @@ curl -X POST http://localhost:3000/api/restaurantes \
 - `nombre` (String): Nombre del restaurante
 - `ubicacion` (String): Dirección del restaurante
 - `adm_id` (ObjectId): ID del administrador
-
-**Campos opcionales:**
-- `mesas` (Array): Array de objetos con `numero` y `qr_code`
-- `categorias` (Array): Array de objetos con `nombre` y `descripcion`
 
 #### PUT /api/restaurantes/:id
 Actualiza un restaurante.
@@ -266,116 +247,151 @@ Elimina un restaurante.
 curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439011
 ```
 
----
+#### GET /api/restaurantes/menu/:qr_code
+Obtiene el menú de un restaurante escaneando el código QR de una mesa. Incluye información del restaurante, mesa y platos organizados por categoría.
 
-### Mesas
+```bash
+curl http://localhost:3000/api/restaurantes/menu/507f1f77bcf86cd799439012_mesa_1_1234567890
+```
 
-#### GET /api/mesas
+**Respuesta:**
+```json
+{
+  "restaurante": {
+    "_id": "507f1f77bcf86cd799439012",
+    "nombre": "Restaurante La Cocina",
+    "ubicacion": "Calle 123 #45-67"
+  },
+  "mesa": {
+    "numero": 1,
+    "qr_code": "507f1f77bcf86cd799439012_mesa_1_1234567890"
+  },
+  "categorias": [
+    {
+      "_id": "507f1f77bcf86cd799439017",
+      "nombre": "Entradas",
+      "descripcion": "Platos de entrada",
+      "platos": [...]
+    }
+  ]
+}
+```
+
+#### GET /api/restaurantes/:id/mesas
 Lista todas las mesas de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/mesas?restaurante_id=507f1f77bcf86cd799439012
+curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas
 ```
 
-#### GET /api/mesas/:id
-Obtiene una mesa específica.
+#### GET /api/restaurantes/:id/mesas/:mesaId
+Obtiene una mesa específica de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/mesas/507f1f77bcf86cd799439013
+curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas/507f1f77bcf86cd799439013
 ```
 
-#### POST /api/mesas
-Crea una nueva mesa en un restaurante.
+#### POST /api/restaurantes/:id/mesas
+Agrega una nueva mesa a un restaurante existente. Genera automáticamente el código QR y la imagen QR.
 
 ```bash
-curl -X POST http://localhost:3000/api/mesas \
+curl -X POST http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas \
   -H "Content-Type: application/json" \
   -d '{
-    "restaurante_id": "507f1f77bcf86cd799439012",
-    "numero": 1,
-    "qr_code": "QR001"
+    "numero": 1
   }'
 ```
 
 **Campos requeridos:**
-- `restaurante_id` (ObjectId): ID del restaurante
 - `numero` (Number): Número de la mesa
-- `qr_code` (String): Código QR de la mesa
 
-#### PUT /api/mesas/:id
-Actualiza una mesa.
+**Respuesta incluye:**
+- `numero`: Número de la mesa
+- `qr_code`: Código QR generado automáticamente
+- `qr_image`: Imagen QR en base64
+- `menu_url`: URL para acceder al menú de la mesa
+
+#### PUT /api/restaurantes/:id/mesas/:mesaId
+Edita una mesa existente.
 
 ```bash
-curl -X PUT http://localhost:3000/api/mesas/507f1f77bcf86cd799439013 \
+curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas/507f1f77bcf86cd799439013 \
   -H "Content-Type: application/json" \
   -d '{
-    "numero": 2,
-    "qr_code": "QR002"
+    "numero": 2
   }'
 ```
 
-#### DELETE /api/mesas/:id
-Elimina una mesa.
+#### DELETE /api/restaurantes/:id/mesas/:mesaId
+Elimina una mesa específica.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/mesas/507f1f77bcf86cd799439013
+curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas/507f1f77bcf86cd799439013
 ```
 
----
+#### DELETE /api/restaurantes/:id/mesas
+Elimina todas las mesas de un restaurante.
 
-### Categorías
+```bash
+curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/mesas
+```
 
-#### GET /api/categorias
+#### GET /api/restaurantes/:id/categorias
 Lista todas las categorías de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/categorias?restaurante_id=507f1f77bcf86cd799439012
+curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias
 ```
 
-#### GET /api/categorias/:id
-Obtiene una categoría específica.
+#### GET /api/restaurantes/:id/categorias/:categoriaId
+Obtiene una categoría específica de un restaurante.
 
 ```bash
-curl http://localhost:3000/api/categorias/507f1f77bcf86cd799439017
+curl http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias/507f1f77bcf86cd799439017
 ```
 
-#### POST /api/categorias
-Crea una nueva categoría en un restaurante.
+#### POST /api/restaurantes/:id/categorias
+Agrega una nueva categoría a un restaurante existente.
 
 ```bash
-curl -X POST http://localhost:3000/api/categorias \
+curl -X POST http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias \
   -H "Content-Type: application/json" \
   -d '{
-    "restaurante_id": "507f1f77bcf86cd799439012",
     "nombre": "Entradas",
     "descripcion": "Platos de entrada"
   }'
 ```
 
 **Campos requeridos:**
-- `restaurante_id` (ObjectId): ID del restaurante
 - `nombre` (String): Nombre de la categoría
 
 **Campos opcionales:**
 - `descripcion` (String): Descripción de la categoría
 
-#### PUT /api/categorias/:id
-Actualiza una categoría.
+#### PUT /api/restaurantes/:id/categorias/:categoriaId
+Edita una categoría existente.
 
 ```bash
-curl -X PUT http://localhost:3000/api/categorias/507f1f77bcf86cd799439017 \
+curl -X PUT http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias/507f1f77bcf86cd799439017 \
   -H "Content-Type: application/json" \
   -d '{
     "nombre": "Entradas Actualizado",
-    "descripcion": "Descripción actualizada"
+    "descripcion": "Nueva descripción"
   }'
 ```
 
-#### DELETE /api/categorias/:id
-Elimina una categoría.
+#### DELETE /api/restaurantes/:id/categorias/:categoriaId
+Elimina una categoría específica.
 
 ```bash
-curl -X DELETE http://localhost:3000/api/categorias/507f1f77bcf86cd799439017
+curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias/507f1f77bcf86cd799439017
+```
+
+#### DELETE /api/restaurantes/:id/categorias
+Elimina todas las categorías de un restaurante.
+
+```bash
+curl -X DELETE http://localhost:3000/api/restaurantes/507f1f77bcf86cd799439012/categorias
 ```
 
 ---

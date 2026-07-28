@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const AdminController = require('../controllers/AdminController');
+const AdminController = require('../controllers/Admin.Controller');
 
 // Rutas para administradores
 router.get('/', AdminController.index);

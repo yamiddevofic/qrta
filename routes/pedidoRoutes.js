@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PedidoController = require('../controllers/PedidoController');
+const PedidoController = require('../controllers/Pedido.Controller');
 
 // Rutas para pedidos
 router.get('/', PedidoController.index);

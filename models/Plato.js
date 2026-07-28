@@ -34,7 +34,6 @@ const platoSchema = new Schema({
   },
   categoria_id: {
     type: Schema.Types.ObjectId,
-    ref: 'Restaurante',
     required: true
   },
   estado: {

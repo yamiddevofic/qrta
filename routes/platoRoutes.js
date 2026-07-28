@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PlatoController = require('../controllers/PlatoController');
+const PlatoController = require('../controllers/Plato.Controller');
 
 // Rutas para platos
 router.get('/', PlatoController.index);

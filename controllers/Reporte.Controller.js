@@ -1,10 +1,10 @@
-const Report = require('../models/Reporte');
+const Reporte = require('../models/Reporte');
 const Pedido = require('../models/Pedido');
 
 // GET /reportes/:restauranteId — listar reportes de un restaurante (lectura)
 exports.getReportes = async (req, res) => {
   try {
-    const reportes = await Report.find({ restaurante_id: req.params.restauranteId })
+    const reportes = await Reporte.find({ restaurante_id: req.params.restauranteId })
       .sort({ fecha: -1 });
     res.json(reportes);
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getReportes = async (req, res) => {
 // GET /reportes/:restauranteId/:fecha — un reporte puntual (lectura)
 exports.getReportePorFecha = async (req, res) => {
   try {
-    const reporte = await Report.findOne({
+    const reporte = await Reporte.findOne({
       restaurante_id: req.params.restauranteId,
       fecha: req.params.fecha
     });
@@ -74,7 +74,7 @@ exports.generarReporte = async (req, res) => {
       estado: 'DEVOLUCION'
     });
 
-    const reporte = new Report({
+    const reporte = new Reporte({
       restaurante_id: restauranteId,
       fecha: inicioDia,
       total_ingresos: totalIngresos,
@@ -99,7 +99,7 @@ exports.generarReporte = async (req, res) => {
 // Modificar reporte
 exports.updateReporte = async (req, res) => {
   try {
-    const reporte = await Report.findByIdAndUpdate(
+    const reporte = await Reporte.findByIdAndUpdate(
       req.params.id,
       {
         total_ingresos: req.body.total_ingresos,
@@ -123,7 +123,7 @@ exports.updateReporte = async (req, res) => {
 // Eliminar reporte
 exports.deleteReporte = async (req, res) => {
   try {
-    const reporte = await Report.findByIdAndDelete(req.params.id);
+    const reporte = await Reporte.findByIdAndDelete(req.params.id);
     if (!reporte) return res.status(404).json({ error: 'Reporte no encontrado' });
     res.json({ message: 'Reporte eliminado correctamente' });
   } catch (error) {

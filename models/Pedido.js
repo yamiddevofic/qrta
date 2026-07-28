@@ -22,7 +22,7 @@ const platoPedidoSchema = new Schema({
 
 const pedidoSchema = new Schema({
   mesa_id: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true
   },
   platos: [platoPedidoSchema],

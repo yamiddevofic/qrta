@@ -36,7 +36,7 @@ const index = async (req, res, next) => {
 
 const show = async (req, res, next) => {
     try {
-        const empleado = await Empleado.findById(req.params.id).select('-contraseña');
+        const empleado = await Empleado.findById(req.params.id).select('-password');
         if (!empleado) return res.status(404).json({ message: 'Empleado no encontrado' });
         res.json(empleado);
     } catch (err) {
@@ -54,14 +54,14 @@ const update = async (req, res) => {
             rol: req.body.rol,
             contacto: req.body.contacto
         };
-        if (req.body.contraseña) {
-            updateData.contraseña = bcrypt.hashSync(req.body.contraseña, 10);
+        if (req.body.password) {
+            updateData.password = bcrypt.hashSync(req.body.password, 10);
         }
         const empleado = await Empleado.findByIdAndUpdate(
             req.params.id,
             updateData,
             { new: true, runValidators: true }
-        ).select('-contraseña');
+        ).select('-password');
         if (!empleado) return res.status(404).json({ message: 'Empleado no encontrado' });
         res.json(empleado);
     } catch (err) {
@@ -76,7 +76,7 @@ const cambiarEstado = async (req, res) => {
             req.params.id,
             { estado: req.body.estado },
             { new: true, runValidators: true }
-        ).select('-contraseña');
+        ).select('-password');
         if (!empleado) return res.status(404).json({ message: 'Empleado no encontrado' });
         res.json(empleado);
     } catch (err) {

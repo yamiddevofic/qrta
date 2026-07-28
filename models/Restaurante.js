@@ -10,6 +10,9 @@ const mesaSchema = new Schema({
   qr_code: {
     type: String,
     required: true
+  },
+  qr_image: {
+    type: String // Base64 de la imagen QR
   }
 }); 
 

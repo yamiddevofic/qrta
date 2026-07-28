@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const FidelizacionController = require('../controllers/FidelizacionController');
+const FidelizacionController = require('../controllers/Fidelizacion.Controller');
 
 // Rutas para fidelización
 router.get('/fidelizacion/:clienteId/:restauranteId', FidelizacionController.getFidelizacion);

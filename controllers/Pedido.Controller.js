@@ -1,6 +1,6 @@
 const Pedido = require('../models/Pedido');
 const Plato = require('../models/Plato');
-const { registrarCompra } = require('./FidelizacionController');
+const { registrarCompra } = require('./Fidelizacion.Controller');
 
 // Guardar pedido — el snapshot de nombre/precio se construye en el
 // servidor, consultando Plato real, nunca confiando en lo que manda el cliente

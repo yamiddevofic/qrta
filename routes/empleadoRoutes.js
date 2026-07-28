@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const EmpleadoController = require('../controllers/EmpleadoController');
+const EmpleadoController = require('../controllers/Empleado.Controller');
 
 // Rutas para empleados
 router.get('/', EmpleadoController.index);
