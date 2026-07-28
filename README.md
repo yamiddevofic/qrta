@@ -617,6 +617,13 @@ Obtiene un programa de fidelización específico.
 curl http://localhost:3000/api/fidelizacion/:id
 ```
 
+#### GET /api/fidelizacion/cliente/:clienteId/restaurante/:restauranteId
+Obtiene el programa de fidelización de un cliente en un restaurante específico.
+
+```bash
+curl http://localhost:3000/api/fidelizacion/cliente/:clienteId/restaurante/:restauranteId
+```
+
 #### POST /api/fidelizacion
 Crea un nuevo programa de fidelización.
 

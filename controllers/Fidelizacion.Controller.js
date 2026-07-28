@@ -4,6 +4,27 @@ const Fidelizacion = require('../models/Fidelizacion');
 // Restaurante.programa_fidelizacion.compras_requeridas en vez de estar fijo aquí.
 const COMPRAS_REQUERIDAS = 10;
 
+// GET /fidelizacion — listar todos los programas de fidelización
+const index = async (req, res) => {
+  try {
+    const fidelizaciones = await Fidelizacion.find();
+    res.json(fidelizaciones);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// GET /fidelizacion/:id — obtener un programa de fidelización específico
+const show = async (req, res) => {
+  try {
+    const fidelizacion = await Fidelizacion.findById(req.params.id);
+    if (!fidelizacion) return res.status(404).json({ error: 'Fidelización no encontrada' });
+    res.json(fidelizacion);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // GET /fidelizacion/:clienteId/:restauranteId — ver el progreso de un cliente
 // en un restaurante específico (lectura)
 const getFidelizacion = async (req, res) => {
@@ -108,6 +129,8 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
+  index,
+  show,
   getFidelizacion,
   crearFidelizacion,
   registrarCompra,
