@@ -775,11 +775,44 @@ curl -X DELETE http://localhost:3000/api/pedidos/:id
 
 ### Reportes
 
-#### GET /api/reportes
-Obtiene reportes del sistema.
+#### GET /api/reportes/:restauranteId
+Obtiene todos los reportes de un restaurante específico.
 
 ```bash
-curl http://localhost:3000/api/reportes
+curl http://localhost:3000/api/reportes/:id
+```
+
+#### GET /api/reportes/:restauranteId/:fecha
+Obtiene un reporte específico de un restaurante por fecha.
+
+```bash
+curl http://localhost:3000/api/reportes/:id/2024-01-15
+```
+
+#### POST /api/reportes/generar/:restauranteId
+Genera un nuevo reporte para un restaurante.
+
+```bash
+curl -X POST http://localhost:3000/api/reportes/generar/:id
+```
+
+#### PUT /api/reportes/:id
+Actualiza un reporte existente.
+
+```bash
+curl -X PUT http://localhost:3000/api/reportes/:id \
+  -H "Content-Type: application/json" \
+  -d '{
+    "total_ingresos": 500000,
+    "total_platos_entregados": 25
+  }'
+```
+
+#### DELETE /api/reportes/:id
+Elimina un reporte.
+
+```bash
+curl -X DELETE http://localhost:3000/api/reportes/:id
 ```
 
 **Respuesta típica incluye:**
