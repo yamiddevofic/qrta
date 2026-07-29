@@ -75,6 +75,7 @@ const registrarCompra = async (clienteId, restauranteId, montoGastado) => {
   let premioGanado = false;
   if (fidelizacion.compras_premio >= COMPRAS_REQUERIDAS) {
     fidelizacion.compras_premio = 0; // se resetea el contador al canjear
+    fidelizacion.premios_ganados += 1; // incrementa premios ganados
     premioGanado = true;
   }
 
@@ -88,6 +89,7 @@ const update = async (req, res) => {
     const updateData = {};
     if (req.body.puntos !== undefined) updateData.puntos = req.body.puntos;
     if (req.body.compras_premio !== undefined) updateData.compras_premio = req.body.compras_premio;
+    if (req.body.premios_ganados !== undefined) updateData.premios_ganados = req.body.premios_ganados;
     if (req.body.visitas !== undefined) updateData.visitas = req.body.visitas;
     if (req.body.total_gastado !== undefined) updateData.total_gastado = req.body.total_gastado;
     if (req.body.estado !== undefined) updateData.estado = req.body.estado;

@@ -20,6 +20,10 @@ const fidelizacionSchema = new Schema({
     type: Number,
     default: 0
   },
+  premios_ganados: {
+    type: Number,
+    default: 0
+  },
   visitas: {
     type: Number,
     default: 0

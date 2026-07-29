@@ -648,7 +648,8 @@ curl -X POST http://localhost:3000/api/fidelizacion \
 
 **Campos opcionales:**
 - `puntos` (Number): Puntos acumulados (default: 0)
-- `compras_premio` (Number): Compras con premio (default: 0)
+- `compras_premio` (Number): Compras hacia el próximo premio (default: 0)
+- `premios_ganados` (Number): Total de premios ganados (default: 0)
 - `visitas` (Number): Número de visitas (default: 0)
 - `total_gastado` (Number): Total gastado (default: 0)
 - `estado` (String): 'ACTIVO' o 'INACTIVO' (default: 'ACTIVO')
