@@ -491,6 +491,7 @@ curl -X POST http://localhost:3000/api/platos \
     "descripcion": "Pizza con tomate, mozzarella y albahaca",
     "restaurante_id": ":id",
     "categoria_id": ":categoriaId",
+    "precio": 15000,
     "ingredientes": [
       {
         "nombre": "Tomate",
@@ -511,6 +512,7 @@ curl -X POST http://localhost:3000/api/platos \
 - `nombre` (String): Nombre del plato
 - `restaurante_id` (ObjectId): ID del restaurante
 - `categoria_id` (ObjectId): ID de la categoría
+- `precio` (Number): Precio del plato
 
 **Campos opcionales:**
 - `descripcion` (String): Descripción del plato

@@ -36,6 +36,10 @@ const platoSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
+  precio: {
+    type: Number,
+    required: true
+  },
   estado: {
     type: String,
     enum: ['DISPONIBLE', 'AGOTADO'],

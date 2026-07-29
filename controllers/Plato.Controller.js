@@ -9,6 +9,7 @@ const store = async (req, res) => {
             ingredientes: req.body.ingredientes,
             restaurante_id: req.body.restaurante_id,
             categoria_id: req.body.categoria_id,
+            precio: req.body.precio,
             estado: req.body.estado || 'DISPONIBLE'
         });
         await plato.save();

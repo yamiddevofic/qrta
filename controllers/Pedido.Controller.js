@@ -68,18 +68,28 @@ const cambiarEstado = async (req, res) => {
     try {
         const { estado } = req.body;
         const pedido = await Pedido.findById(req.params.id);
+        
         if (!pedido) return res.status(404).json({ message: 'Pedido no encontrado' });
 
+        const estadoAnterior = pedido.estado;
         pedido.estado = estado;
 
         let premioGanado = false;
-        if (estado === 'ENTREGADO') {
+        // Solo actualizar fidelización si cambia a ENTREGADO desde un estado diferente
+        if (estado === 'ENTREGADO' && estadoAnterior !== 'ENTREGADO') {
             pedido.fecha_cierre = new Date();
 
             if (pedido.cliente_id) {
                 const totalPedido = pedido.platos.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
-                const resultado = await registrarCompra(pedido.cliente_id, req.body.restaurante_id, totalPedido);
-                if (resultado) premioGanado = resultado.premioGanado;
+                
+                // Obtener restaurante_id del primer plato del pedido
+                const primerPlato = await Plato.findById(pedido.platos[0].plato_id);
+                const restaurante_id = primerPlato ? primerPlato.restaurante_id : null;
+                
+                if (restaurante_id) {
+                    const resultado = await registrarCompra(pedido.cliente_id, restaurante_id, totalPedido);
+                    if (resultado) premioGanado = resultado.premioGanado;
+                }
             }
         }
 

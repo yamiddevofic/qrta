@@ -85,14 +85,16 @@ const registrarCompra = async (clienteId, restauranteId, montoGastado) => {
 // Modificar fidelización
 const update = async (req, res) => {
   try {
+    const updateData = {};
+    if (req.body.puntos !== undefined) updateData.puntos = req.body.puntos;
+    if (req.body.compras_premio !== undefined) updateData.compras_premio = req.body.compras_premio;
+    if (req.body.visitas !== undefined) updateData.visitas = req.body.visitas;
+    if (req.body.total_gastado !== undefined) updateData.total_gastado = req.body.total_gastado;
+    if (req.body.estado !== undefined) updateData.estado = req.body.estado;
+
     const fidelizacion = await Fidelizacion.findByIdAndUpdate(
       req.params.id,
-      {
-        puntos: req.body.puntos,
-        compras_premio: req.body.compras_premio,
-        visitas: req.body.visitas,
-        total_gastado: req.body.total_gastado
-      },
+      { $set: updateData },
       { new: true, runValidators: true }
     );
     if (!fidelizacion) return res.status(404).json({ error: 'Fidelización no encontrada' });
