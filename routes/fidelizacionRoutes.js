@@ -3,12 +3,12 @@ const router = express.Router();
 const FidelizacionController = require('../controllers/Fidelizacion.Controller');
 
 // Rutas para fidelización
-router.get('/fidelizacion', FidelizacionController.index);
-router.get('/fidelizacion/cliente/:clienteId/restaurante/:restauranteId', FidelizacionController.getFidelizacion);
-router.get('/fidelizacion/:id', FidelizacionController.show);
-router.post('/fidelizacion', FidelizacionController.crearFidelizacion);
-router.put('/fidelizacion/:id', FidelizacionController.update);
-router.patch('/fidelizacion/:id/estado', FidelizacionController.cambiarEstado);
-router.delete('/fidelizacion/:id', FidelizacionController.destroy);
+router.get('/', FidelizacionController.index);
+router.get('/cliente/:clienteId/restaurante/:restauranteId', FidelizacionController.getFidelizacion);
+router.get('/:id', FidelizacionController.show);
+router.post('/', FidelizacionController.crearFidelizacion);
+router.put('/:id', FidelizacionController.update);
+router.patch('/:id/estado', FidelizacionController.cambiarEstado);
+router.delete('/:id', FidelizacionController.destroy);
 
 module.exports = router;
