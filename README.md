@@ -739,6 +739,27 @@ curl -X PUT http://localhost:3000/api/pedidos/:id \
   }'
 ```
 
+#### PATCH /api/pedidos/:id/estado
+Actualiza el estado de un pedido. Cuando el estado cambia a 'ENTREGADO' y el pedido tiene un cliente asociado, se actualiza automáticamente el programa de fidelización (puntos, visitas, total gastado).
+
+```bash
+curl -X PATCH http://localhost:3000/api/pedidos/:id/estado \
+  -H "Content-Type: application/json" \
+  -d '{
+    "estado": "ENTREGADO"
+  }'
+```
+
+**Estados disponibles:**
+- `PENDIENTE`: Pedido creado, esperando ser preparado
+- `CANCELADO`: Pedido cancelado
+- `ELIMINADO`: Pedido eliminado
+- `LISTO`: Pedido listo para ser entregado
+- `ENTREGADO`: Pedido entregado al cliente (actualiza fidelización)
+- `DEVOLUCION`: Pedido devuelto
+
+**Nota:** La fidelización solo se actualiza cuando el estado cambia a 'ENTREGADO' desde un estado diferente. Si envías el mismo estado 'ENTREGADO' múltiples veces, no se volverá a sumar nada a la fidelización.
+
 #### DELETE /api/pedidos/:id
 Elimina un pedido.
 
