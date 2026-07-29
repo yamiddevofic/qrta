@@ -637,6 +637,7 @@ curl -X POST http://localhost:3000/api/fidelizacion \
     "cliente_id": ":clienteId",
     "puntos": 100,
     "compras_premio": 0,
+    "premios_ganados": 0,
     "visitas": 5,
     "total_gastado": 150000
   }'
@@ -662,6 +663,8 @@ curl -X PUT http://localhost:3000/api/fidelizacion/:id \
   -H "Content-Type: application/json" \
   -d '{
     "puntos": 150,
+    "compras_premio": 5,
+    "premios_ganados": 1,
     "visitas": 6,
     "total_gastado": 180000
   }'
