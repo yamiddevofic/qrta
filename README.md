@@ -42,7 +42,6 @@ Backend API para la gestión completa de restaurantes, desarrollado con Node.js,
 1. **Clonar el repositorio**
    ```bash
    git clone <repository-url>
-   cd curso-mongodb-nodejs/project
    ```
 
 2. **Instalar dependencias**
